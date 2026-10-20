@@ -3,8 +3,6 @@ name: Budowanie Moja Forma APK
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "main" ]
 
 jobs:
   build:
@@ -12,6 +10,11 @@ jobs:
     steps:
       - name: Pobierz pliki
         uses: actions/checkout@v4
+
+      - name: Rozpakuj projekt
+        run: |
+          unzip -o Moja_Forma_projekt_Android.zip -d projekt
+          cp -r projekt/MojaFormaAndroid/. .
 
       - name: Ustaw Javę
         uses: actions/setup-java@v4
@@ -27,7 +30,7 @@ jobs:
       - name: Zbuduj APK
         run: gradle assembleDebug
 
-      - name: Udostępnij APK do pobrania
+      - name: Udostępnij APK
         uses: actions/upload-artifact@v4
         with:
           name: moja-forma-apk
