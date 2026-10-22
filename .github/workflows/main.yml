@@ -7,14 +7,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Pobierz pliki
         uses: actions/checkout@v4
-
-      - name: Rozpakuj projekt
-        run: |
-          unzip -o Moja_Forma_projekt_Android.zip -d projekt
-          cp -r projekt/MojaFormaAndroid/. .
 
       - name: Ustaw Javę
         uses: actions/setup-java@v4
@@ -22,16 +18,37 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Rozpakuj i znajdź projekt
+        run: |
+          unzip -o Moja_Forma_projekt_Android.zip -d projekt
+
+          SETTINGS=$(find projekt -type f \( -name settings.gradle -o -name settings.gradle.kts \) -print -quit)
+
+          if [ -z "$SETTINGS" ]; then
+            echo "Nie znaleziono settings.gradle w archiwum."
+            find projekt -maxdepth 4 -type f | head -100
+            exit 1
+          fi
+
+          PROJECT_DIR=$(dirname "$SETTINGS")
+          echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
+          echo "Znaleziono projekt: $PROJECT_DIR"
+          ls -la "$PROJECT_DIR"
+
       - name: Ustaw Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
 
       - name: Zbuduj APK
-        run: gradle assembleDebug
+        run: |
+          cd "$PROJECT_DIR"
+          gradle assembleDebug
 
-      - name: Udostępnij APK
+      - name: Udostępnij APK do pobrania
         uses: actions/upload-artifact@v4
         with:
           name: moja-forma-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: ${{ env.PROJECT_DIR }}/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          
