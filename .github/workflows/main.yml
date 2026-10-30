@@ -20,7 +20,7 @@ jobs:
 
       - name: Rozpakuj i znajdź projekt
         run: |
-          unzip -o Moja_Forma_kalendarz_v2.zip -d projekt
+          unzip -o Moja_Forma_Asystent_Offline_v1.zip -d projekt
 
           SETTINGS=$(find projekt -type f \( -name settings.gradle -o -name settings.gradle.kts \) -print -quit)
 
