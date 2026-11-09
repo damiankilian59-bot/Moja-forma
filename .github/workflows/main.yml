@@ -18,7 +18,7 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Rozpakuj i znajdź projekt
+      -       - name: Rozpakuj projekt
         run: |
           unzip -o Moja_Forma_projekt_Android.zip -d projekt
           cp -r projekt/MojaFormaAndroid/. .
