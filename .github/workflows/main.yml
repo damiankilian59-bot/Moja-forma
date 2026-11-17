@@ -35,6 +35,8 @@ jobs:
           echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
           echo "Znaleziono projekt: $PROJECT_DIR"
           ls -la "$PROJECT_DIR"
+          sed -i 's/import com.google.mlkit.vision.barcode.Barcode;/import com.google.mlkit.vision.barcode.common.Barcode;/' "$PROJECT_DIR/app/src/main/java/pl/mojaforma/app/MainActivity.java"
+
           sed -i "/dependencies {/a\    implementation 'com.google.mlkit:barcode-scanning:17.3.0'" "$PROJECT_DIR/app/build.gradle"
       - name: Ustaw Gradle
         uses: gradle/actions/setup-gradle@v4
