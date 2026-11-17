@@ -12,36 +12,29 @@ jobs:
       - name: Pobierz pliki
         uses: actions/checkout@v4
 
-      - name: Ustaw Javę
+      - name: Ustaw Jave
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
 
-      - name: Rozpakuj projekt
+      - name: Rozpakuj nowy projekt
         run: |
-          unzip -o Moja_Forma_kompletna_paczka_v1_3.zip -d projekt
-          cp -r projekt/MojaFormaAndroid/. .
+          unzip -o Moja_Forma_2_0_3_HEALTH_CONNECT.zip -d projekt
+          PROJECT_DIR="projekt/MojaFormaAndroid"
 
-          SETTINGS=$(find projekt -type f \( -name settings.gradle -o -name settings.gradle.kts \) -print -quit)
-
-          if [ -z "$SETTINGS" ]; then
-            echo "Nie znaleziono settings.gradle w archiwum."
-            find projekt -maxdepth 4 -type f | head -100
+          if [ ! -f "$PROJECT_DIR/settings.gradle" ]; then
+            echo "Nie znaleziono settings.gradle!"
+            find projekt -maxdepth 4 -type f
             exit 1
           fi
 
-          PROJECT_DIR=$(dirname "$SETTINGS")
           echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
-          echo "Znaleziono projekt: $PROJECT_DIR"
-          ls -la "$PROJECT_DIR"
-          sed -i 's/import com.google.mlkit.vision.barcode.Barcode;/import com.google.mlkit.vision.barcode.common.Barcode;/' "$PROJECT_DIR/app/src/main/java/pl/mojaforma/app/MainActivity.java"
 
-          sed -i "/dependencies {/a\    implementation 'com.google.mlkit:barcode-scanning:17.3.0'" "$PROJECT_DIR/app/build.gradle"
       - name: Ustaw Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.9'
+          gradle-version: '8.11.1'
 
       - name: Zbuduj APK
         run: |
@@ -54,4 +47,5 @@ jobs:
           name: moja-forma-apk
           path: ${{ env.PROJECT_DIR }}/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+          
           
