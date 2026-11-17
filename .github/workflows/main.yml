@@ -20,7 +20,7 @@ jobs:
 
       - name: Rozpakuj nowy projekt
         run: |
-          unzip -o Moja_Forma_2_0_4_HEALTH_CONNECT.zip -d projekt
+          unzip -o Moja_Forma_2_0_4_POPRAWIONY_PROJEKT.zip -d projekt
           PROJECT_DIR="projekt/MojaFormaAndroid"
 
           if [ ! -f "$PROJECT_DIR/settings.gradle" ]; then
