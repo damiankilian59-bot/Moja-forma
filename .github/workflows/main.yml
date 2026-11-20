@@ -20,7 +20,7 @@ jobs:
 
       - name: Rozpakuj nowy projekt
         run: |
-          unzip -o Najnowsza_Moja_Forma_3.0.zip -d projekt
+          unzip -o Moja_Forma_3.1_FITNESS_PRO.zip -d projekt
           PROJECT_DIR="projekt/MojaFormaAndroid"
 
           if [ ! -f "$PROJECT_DIR/settings.gradle" ]; then
