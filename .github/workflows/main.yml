@@ -13,7 +13,7 @@ jobs:
 
       - name: Rozpakuj projekt 3.1
         run: |
-          unzip -o Moja_Forma_3.1_FITNESS_PRO_FINAL.zip -d projekt
+          unzip -o Moja_Forma_3.1_FITNESS_PRO_HEALTH_BACKGROUND.zip -d projekt
           cp -r projekt/MojaFormaAndroid/. .
 
       - name: Ustaw Javę
