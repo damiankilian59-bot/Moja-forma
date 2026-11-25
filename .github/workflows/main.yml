@@ -13,7 +13,7 @@ jobs:
 
       - name: Rozpakuj projekt 3.1
         run: |
-          unzip -o Moja_Forma_3.1.1_HEALTH_CONNECT_FIX.zip -d projekt
+          unzip -o Moja_Forma_4.0_FITNESS_HEALTH_PRO.zip -d projekt
           cp -r projekt/MojaFormaAndroid/. .
 
       - name: Ustaw Javę
